@@ -10,12 +10,14 @@ pytorch_test/
 ├── Dockerfile                          # Docker 이미지 빌드 설정
 ├── README.md                           # 프로젝트 설명서
 ├── data/                               # 데이터셋 저장 폴더
-│   └── FashionMNIST/                   # FashionMNIST 데이터셋
+│   ├── FashionMNIST/                   # FashionMNIST 데이터셋
+│   └── CIFAR10/                        # CIFAR-10 데이터셋
 └── jupyter_notebook/                   # Jupyter 노트북 파일들
     ├── network_generation.ipynb        # 신경망 생성 및 구조
     ├── transform.ipynb                 # 데이터 변환
     ├── auto_gradient.ipynb             # 자동 미분 (Autograd)
-    └── model_parameter_optimization.ipynb  # 모델 학습 및 최적화
+    ├── model_parameter_optimization.ipynb  # 모델 학습 및 최적화
+    └── cnn_optimization.ipynb          # CNN 하이퍼파라미터 최적화
 ```
 
 ### 📋 주요 구성 요소
@@ -31,7 +33,8 @@ pytorch_test/
 2. **transform.ipynb** - 데이터 변환
    - `ToTensor` 변환을 사용한 데이터 로딩
    - `Lambda` 변환으로 레이블을 원-핫 인코딩으로 변환
-   - FashionMNIST 데이터셋 활용
+   - FashionMNIST 데이터셋 활용 (`../data` 경로 사용)
+   - `scatter_()` 메서드를 활용한 텐서 조작
 
 3. **auto_gradient.ipynb** - 자동 미분 (Autograd)
    - PyTorch의 자동 미분 기능 학습
@@ -40,11 +43,23 @@ pytorch_test/
    - `torch.no_grad()`와 `detach()`를 사용한 그래디언트 추적 제어
 
 4. **model_parameter_optimization.ipynb** - 모델 학습 및 최적화
-   - FashionMNIST 데이터셋 로딩 및 DataLoader 설정
+   - FashionMNIST 데이터셋 로딩 및 DataLoader 설정 (`../data` 경로 사용)
    - 손실 함수 정의 (`CrossEntropyLoss`)
    - 옵티마이저 설정 (`SGD`)
-   - 학습 루프 및 테스트 루프 구현
-   - 10 에포크 동안 모델 학습
+   - 학습 루프 및 테스트 루프 구현 (CUDA 지원)
+   - 10 에포크 동안 모델 학습 및 정확도 평가
+
+5. **cnn_optimization.ipynb** - CNN 하이퍼파라미터 최적화
+   - CIFAR-10 데이터셋 활용 (10개 클래스 이미지 분류)
+   - Convolutional Neural Network (CNN) 구현
+     - 2개의 Conv 레이어 + MaxPooling
+     - 2개의 Fully Connected 레이어
+   - 이미지 시각화 (Matplotlib 활용)
+   - 하이퍼파라미터 그리드 서치
+     - Learning Rate: [0.1, 0.01, 0.001, 0.0001]
+     - Batch Size: [16, 32, 64, 128]
+   - Adam 옵티마이저 사용
+   - 각 조합별 10 에포크 학습 및 성능 비교
 
 #### 🐳 Docker 환경
 - **Dockerfile**: PyTorch 개발을 위한 일관된 실행 환경 제공
@@ -54,7 +69,8 @@ pytorch_test/
 
 이 레포지토리는 PyTorch의 핵심 개념을 단계별로 학습합니다:
 
-1. **데이터 준비**: 데이터 변환 및 로딩
-2. **모델 구축**: 신경망 아키텍처 정의
+1. **데이터 준비**: 데이터 변환 및 로딩 (FashionMNIST, CIFAR-10)
+2. **모델 구축**: 완전 연결 신경망 및 CNN 아키텍처 정의
 3. **자동 미분**: 역전파를 위한 그래디언트 자동 계산
 4. **학습 최적화**: 모델 훈련 및 성능 평가
+5. **하이퍼파라미터 튜닝**: Learning Rate와 Batch Size 최적화

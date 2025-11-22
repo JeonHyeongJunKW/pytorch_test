@@ -7,3 +7,4 @@ RUN apt-get update && apt-get install -y \
 
 RUN pip3 install --no-cache-dir opencv-python
 RUN pip3 install -U ipykernel
+RUN pip3 install --no-cache-dir matplotlib
